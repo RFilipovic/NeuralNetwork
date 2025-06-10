@@ -16,7 +16,6 @@ public class Solution {
 	private static int iter = 0;
 
 	public static void main(String... args) {
-
 		setArgs(args);
 
 		Map<String, Object> trainData = parseFile(trainFile);
@@ -26,20 +25,26 @@ public class Solution {
 		List<Double[]> trainSet = (List<Double[]>) trainData.get("data");
 		List<Double[]> testSet = (List<Double[]>) testData.get("data");
 
+		int inputDim = headers.size() - 1;
+		GeneticAlg ga = new GeneticAlg(inputDim, architecture, popsize, elitism, p, K, iter);
+		NeuralNetwork bestNetwork = ga.evolve(trainSet);
+
+		double testError = bestNetwork.calculateMSE(testSet);
+		System.out.printf("[Test error]: %.6f\n", testError);
 	}
 
 	private static void setArgs(String... args) {
 		for (int i = 0; i < args.length; i++){
-            switch (args[i]) {
-                case "--test" -> trainFile = args[i + 1];
-                case "--train" -> testFile = args[i + 1];
-                case "--nn" -> architecture = args[i + 1];
-                case "--popsize" -> popsize = Integer.parseInt(args[i + 1]);
-                case "--elitism" -> elitism = Integer.parseInt(args[i + 1]);
-                case "--p" -> p = Double.parseDouble(args[i + 1]);
-                case "--K" -> K = Double.parseDouble(args[i + 1]);
-                case "--iter" -> iter = Integer.parseInt(args[i + 1]);
-            }
+			switch (args[i]) {
+				case "--test" -> testFile = args[i + 1];
+				case "--train" -> trainFile = args[i + 1];
+				case "--nn" -> architecture = args[i + 1];
+				case "--popsize" -> popsize = Integer.parseInt(args[i + 1]);
+				case "--elitism" -> elitism = Integer.parseInt(args[i + 1]);
+				case "--p" -> p = Double.parseDouble(args[i + 1]);
+				case "--K" -> K = Double.parseDouble(args[i + 1]);
+				case "--iter" -> iter = Integer.parseInt(args[i + 1]);
+			}
 		}
 	}
 
@@ -59,7 +64,7 @@ public class Solution {
 				String[] parts = line.split(",");
 				Double[] row = new Double[parts.length];
 				for(int i = 0; i < parts.length; i++){
-					row[i] = (Double.parseDouble(parts[i]));
+					row[i] = Double.parseDouble(parts[i]);
 				}
 				data.add(row);
 			}
@@ -70,7 +75,6 @@ public class Solution {
 		Map<String, Object> result = new HashMap<>();
 		result.put("headers", headers);
 		result.put("data", data);
-
 		return result;
 	}
 }
