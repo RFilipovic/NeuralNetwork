@@ -80,7 +80,11 @@ public class GeneticAlg {
     }
 
     private Individual selectParent(List<Individual> population) {
-        double totalFitness = population.stream().mapToDouble(i -> i.fitness).sum();
+        double totalFitness = 0;
+        for (Individual individual : population) {
+            totalFitness += individual.fitness;
+        }
+
         double randomValue = random.nextDouble() * totalFitness;
         double cumulativeFitness = 0;
 

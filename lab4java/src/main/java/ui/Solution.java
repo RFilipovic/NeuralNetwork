@@ -34,16 +34,23 @@ public class Solution {
 	}
 
 	private static void setArgs(String... args) {
-		for (int i = 0; i < args.length; i++){
-			switch (args[i]) {
-				case "--test" -> testFile = args[i + 1];
-				case "--train" -> trainFile = args[i + 1];
-				case "--nn" -> architecture = args[i + 1];
-				case "--popsize" -> popsize = Integer.parseInt(args[i + 1]);
-				case "--elitism" -> elitism = Integer.parseInt(args[i + 1]);
-				case "--p" -> p = Double.parseDouble(args[i + 1]);
-				case "--K" -> K = Double.parseDouble(args[i + 1]);
-				case "--iter" -> iter = Integer.parseInt(args[i + 1]);
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equals("--test")) {
+				testFile = args[i + 1];
+			} else if (args[i].equals("--train")) {
+				trainFile = args[i + 1];
+			} else if (args[i].equals("--nn")) {
+				architecture = args[i + 1];
+			} else if (args[i].equals("--popsize")) {
+				popsize = Integer.parseInt(args[i + 1]);
+			} else if (args[i].equals("--elitism")) {
+				elitism = Integer.parseInt(args[i + 1]);
+			} else if (args[i].equals("--p")) {
+				p = Double.parseDouble(args[i + 1]);
+			} else if (args[i].equals("--K")) {
+				K = Double.parseDouble(args[i + 1]);
+			} else if (args[i].equals("--iter")) {
+				iter = Integer.parseInt(args[i + 1]);
 			}
 		}
 	}
